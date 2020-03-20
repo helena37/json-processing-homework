@@ -1,5 +1,7 @@
 package com.json.homework.models.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,7 @@ public class Product extends BaseEntity {
     }
 
     @Column(nullable = false)
-    @DecimalMin(value = "0")
+    @Length(min = 3, message = "Wrong input!!! Name must be at least 3 Characters!")
     public String getName() {
         return name;
     }
@@ -32,6 +34,7 @@ public class Product extends BaseEntity {
     }
 
     @Column(nullable = false)
+    @DecimalMin(value = "0")
     public BigDecimal getPrice() {
         return price;
     }

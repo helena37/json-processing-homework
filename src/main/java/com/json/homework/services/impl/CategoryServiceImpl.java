@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -47,4 +50,19 @@ public class CategoryServiceImpl implements CategoryService {
                    }
                });
     }
+
+    @Override
+    public List<Category> getRandomCategories() {
+        Random random = new Random();
+        List<Category> resultList = new ArrayList<>();
+
+        int randomCounter = random.nextInt(3) + 1;
+
+        for (int i = 0; i < randomCounter; i++) {
+            long randomId = random.nextInt((int) this.categoryRepository.count()) + 1;
+            resultList.add(this.categoryRepository.getOne(randomId));
+        }
+        return resultList;
+    }
+
 }

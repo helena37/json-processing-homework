@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import java.util.Arrays;
+import java.util.Random;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,5 +47,13 @@ public class UserServiceImpl implements UserService {
                     }
                 });
 
+    }
+
+    @Override
+    public User getRandomUser() {
+        Random random = new Random();
+        long randomId = random.nextInt((int) this.userRepository.count()) + 1;
+
+        return this.userRepository.getOne(randomId);
     }
 }
