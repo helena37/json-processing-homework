@@ -76,9 +76,15 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(p -> {
                    ProductInRangeViewDto productInRangeViewDto = this.modelMapper.map(p, ProductInRangeViewDto.class);
-                    productInRangeViewDto.setSeller(String.format("%s %s",
-                            p.getSeller().getFirstName(),
-                            p.getSeller().getLastName()));
+
+                   if (p.getSeller().getFirstName() == null) {
+                       productInRangeViewDto.setSeller(String.format("%s",
+                               p.getSeller().getLastName()));
+                   } else {
+                       productInRangeViewDto.setSeller(String.format("%s %s",
+                               p.getSeller().getFirstName(),
+                               p.getSeller().getLastName()));
+                   }
                     return productInRangeViewDto;
                 })
                 .collect(Collectors.toList());
