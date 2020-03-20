@@ -32,7 +32,7 @@ public class FileIOUtilImpl implements FileIOUtil {
 
     @Override
     public void write(String content, String filepath) throws IOException {
-//        Files.write(Paths.get(filepath),
-//                Collections.singleton(content), StandardCharsets.UTF_8);
+        Files.write(Paths.get(filepath),
+                Collections.singleton(content), StandardCharsets.UTF_8);
     }
 }

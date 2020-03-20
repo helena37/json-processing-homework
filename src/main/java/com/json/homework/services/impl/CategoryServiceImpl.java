@@ -1,6 +1,6 @@
 package com.json.homework.services.impl;
 
-import com.json.homework.models.dtos.CategorySeedDto;
+import com.json.homework.models.dtos.seedDtos.CategorySeedDto;
 import com.json.homework.models.entities.Category;
 import com.json.homework.repositories.CategoryRepository;
 import com.json.homework.services.api.CategoryService;

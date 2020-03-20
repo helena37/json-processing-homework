@@ -1,6 +1,6 @@
 package com.json.homework.services.impl;
 
-import com.json.homework.models.dtos.UserSeedDto;
+import com.json.homework.models.dtos.seedDtos.UserSeedDto;
 import com.json.homework.models.entities.User;
 import com.json.homework.repositories.UserRepository;
 import com.json.homework.services.api.UserService;

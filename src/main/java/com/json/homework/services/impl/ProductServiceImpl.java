@@ -1,6 +1,7 @@
 package com.json.homework.services.impl;
 
-import com.json.homework.models.dtos.ProductSeedDto;
+import com.json.homework.models.dtos.seedDtos.ProductSeedDto;
+import com.json.homework.models.dtos.viewDtos.ProductInRangeViewDto;
 import com.json.homework.models.entities.Product;
 import com.json.homework.repositories.ProductRepository;
 import com.json.homework.services.api.CategoryService;
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -63,5 +67,20 @@ public class ProductServiceImpl implements ProductService {
                                 .forEach(System.out::println);
                     }
                 });
+    }
+
+    @Override
+    public List<ProductInRangeViewDto> getAllProductsInRange() {
+
+        return this.productRepository.findAllByPriceBetweenAndBuyerIsNull(BigDecimal.valueOf(500), BigDecimal.valueOf(1000))
+                .stream()
+                .map(p -> {
+                   ProductInRangeViewDto productInRangeViewDto = this.modelMapper.map(p, ProductInRangeViewDto.class);
+                    productInRangeViewDto.setSeller(String.format("%s %s",
+                            p.getSeller().getFirstName(),
+                            p.getSeller().getLastName()));
+                    return productInRangeViewDto;
+                })
+                .collect(Collectors.toList());
     }
 }

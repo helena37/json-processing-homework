@@ -1,18 +1,22 @@
 package com.json.homework.controllers;
 
 import com.google.gson.Gson;
-import com.json.homework.models.dtos.CategorySeedDto;
-import com.json.homework.models.dtos.ProductSeedDto;
-import com.json.homework.models.dtos.UserSeedDto;
+import com.json.homework.models.dtos.seedDtos.CategorySeedDto;
+import com.json.homework.models.dtos.seedDtos.ProductSeedDto;
+import com.json.homework.models.dtos.seedDtos.UserSeedDto;
+import com.json.homework.models.dtos.viewDtos.ProductInRangeViewDto;
 import com.json.homework.services.api.CategoryService;
 import com.json.homework.services.api.ProductService;
 import com.json.homework.services.api.UserService;
+import com.json.homework.utils.FileIOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 
 import static com.json.homework.constants.GlobalConstants.*;
 
@@ -22,13 +26,15 @@ public class AppController implements CommandLineRunner {
     private final CategoryService categoryService;
     private final UserService userService;
     private final ProductService productService;
+    private final FileIOUtil fileIOUtil;
 
     @Autowired
-    public AppController(Gson gson, CategoryService categoryService, UserService userService, ProductService productService) {
+    public AppController(Gson gson, CategoryService categoryService, UserService userService, ProductService productService, FileIOUtil fileIOUtil) {
         this.gson = gson;
         this.categoryService = categoryService;
         this.userService = userService;
         this.productService = productService;
+        this.fileIOUtil = fileIOUtil;
     }
 
     @Override
@@ -36,6 +42,14 @@ public class AppController implements CommandLineRunner {
         this.seedCategories();
         this.seedUsers();
         this.seedProducts();
+        this.writeProductInRange();
+    }
+
+    private void writeProductInRange() throws IOException {
+        List<ProductInRangeViewDto> productInRangeViewDtos =
+                this.productService.getAllProductsInRange();
+        String jsons = this.gson.toJson(productInRangeViewDtos);
+        this.fileIOUtil.write(jsons, Ex_1_OUTPUT);
     }
 
     private void seedProducts() throws FileNotFoundException {

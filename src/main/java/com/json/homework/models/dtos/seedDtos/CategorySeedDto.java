@@ -1,4 +1,4 @@
-package com.json.homework.models.dtos;
+package com.json.homework.models.dtos.seedDtos;
 
 import com.google.gson.annotations.Expose;
 import org.hibernate.validator.constraints.Length;
