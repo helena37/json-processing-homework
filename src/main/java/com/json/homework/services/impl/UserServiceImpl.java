@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
                    userDto.setSoldProducts(
                            user.getSellerProducts()
                            .stream()
+                                   .filter(s -> s.getBuyer() != null)
                            .map(order -> this.modelMapper.map(order, ProductsNameAndPriceBuyerFirstAndLastName.class))
                            .collect(Collectors.toSet()));
                     return userDto;
