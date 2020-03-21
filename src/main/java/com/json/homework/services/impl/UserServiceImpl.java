@@ -65,15 +65,15 @@ public class UserServiceImpl implements UserService {
                 .findAllByBuyerProductsIsNotNullOrderByLastNameAscFirstNameAsc()
                 .stream()
                 .map(user -> {
-                   UsersSoldProductsViewDto userDto =
-                           this.modelMapper.map(user, UsersSoldProductsViewDto.class);
+                    UsersSoldProductsViewDto userDto =
+                            this.modelMapper.map(user, UsersSoldProductsViewDto.class);
 
-                   userDto.setSoldProducts(
-                           user.getSellerProducts()
-                           .stream()
-                                   .filter(s -> s.getBuyer() != null)
-                           .map(order -> this.modelMapper.map(order, ProductsNameAndPriceBuyerFirstAndLastName.class))
-                           .collect(Collectors.toSet()));
+                    userDto.setSoldProducts(
+                            user.getSellerProducts()
+                                    .stream()
+                                    .filter(s -> s.getBuyer() != null)
+                                    .map(order -> this.modelMapper.map(order, ProductsNameAndPriceBuyerFirstAndLastName.class))
+                                    .collect(Collectors.toSet()));
                     return userDto;
                 })
                 .collect(Collectors.toList());
