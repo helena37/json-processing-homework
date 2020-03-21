@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.json.homework.models.dtos.seedDtos.CategorySeedDto;
 import com.json.homework.models.dtos.seedDtos.ProductSeedDto;
 import com.json.homework.models.dtos.seedDtos.UserSeedDto;
+import com.json.homework.models.dtos.viewDtos.CategoriesByProductsCountViewDto;
 import com.json.homework.models.dtos.viewDtos.ProductInRangeViewDto;
 import com.json.homework.models.dtos.viewDtos.UsersSoldProductsViewDto;
 import com.json.homework.services.api.CategoryService;
@@ -45,6 +46,14 @@ public class AppController implements CommandLineRunner {
         this.seedProducts();
         this.writeProductInRange();
         this.writeSellersAndProducts();
+        this.writeCategoriesByProducts();
+    }
+
+    private void writeCategoriesByProducts() throws IOException {
+        List<CategoriesByProductsCountViewDto> categories =
+                this.categoryService.getAllByProductsCount();
+        String json = this.gson.toJson(categories);
+        this.fileIOUtil.write(json, Ex_3_OUTPUT);
     }
 
     private void writeSellersAndProducts() throws IOException {
