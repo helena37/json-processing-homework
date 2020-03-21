@@ -46,16 +46,16 @@ public class User extends BaseEntity {
         this.age = age;
     }
 
-    @OneToMany(mappedBy = "seller", targetEntity = Product.class)
-    public Set<Product> getProducts() {
+    @OneToMany(mappedBy = "seller", targetEntity = Product.class, fetch = FetchType.EAGER)
+    public Set<Product> getSellerProducts() {
         return sellerProducts;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.sellerProducts = products;
+    public void setSellerProducts(Set<Product> sellerProducts) {
+        this.sellerProducts = sellerProducts;
     }
 
-    @OneToMany(mappedBy = "buyer", targetEntity = Product.class)
+    @OneToMany(mappedBy = "buyer", targetEntity = Product.class, fetch = FetchType.EAGER)
     public Set<Product> getBuyerProducts() {
         return buyerProducts;
     }

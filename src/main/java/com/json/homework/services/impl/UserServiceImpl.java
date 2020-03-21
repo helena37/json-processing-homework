@@ -1,6 +1,8 @@
 package com.json.homework.services.impl;
 
 import com.json.homework.models.dtos.seedDtos.UserSeedDto;
+import com.json.homework.models.dtos.viewDtos.ProductsNameAndPriceBuyerFirstAndLastName;
+import com.json.homework.models.dtos.viewDtos.UsersSoldProductsViewDto;
 import com.json.homework.models.entities.User;
 import com.json.homework.repositories.UserRepository;
 import com.json.homework.services.api.UserService;
@@ -10,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -55,5 +57,24 @@ public class UserServiceImpl implements UserService {
         long randomId = random.nextInt((int) this.userRepository.count()) + 1;
 
         return this.userRepository.getOne(randomId);
+    }
+
+    @Override
+    public List<UsersSoldProductsViewDto> getAllSellersWithSoldProducts() {
+        return this.userRepository
+                .findAllByBuyerProductsIsNotNullOrderByLastNameAscFirstNameAsc()
+                .stream()
+                .map(user -> {
+                   UsersSoldProductsViewDto userDto =
+                           this.modelMapper.map(user, UsersSoldProductsViewDto.class);
+
+                   userDto.setSoldProducts(
+                           user.getSellerProducts()
+                           .stream()
+                           .map(order -> this.modelMapper.map(order, ProductsNameAndPriceBuyerFirstAndLastName.class))
+                           .collect(Collectors.toSet()));
+                    return userDto;
+                })
+                .collect(Collectors.toList());
     }
 }

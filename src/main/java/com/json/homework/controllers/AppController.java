@@ -5,6 +5,7 @@ import com.json.homework.models.dtos.seedDtos.CategorySeedDto;
 import com.json.homework.models.dtos.seedDtos.ProductSeedDto;
 import com.json.homework.models.dtos.seedDtos.UserSeedDto;
 import com.json.homework.models.dtos.viewDtos.ProductInRangeViewDto;
+import com.json.homework.models.dtos.viewDtos.UsersSoldProductsViewDto;
 import com.json.homework.services.api.CategoryService;
 import com.json.homework.services.api.ProductService;
 import com.json.homework.services.api.UserService;
@@ -43,6 +44,14 @@ public class AppController implements CommandLineRunner {
         this.seedUsers();
         this.seedProducts();
         this.writeProductInRange();
+        this.writeSellersAndProducts();
+    }
+
+    private void writeSellersAndProducts() throws IOException {
+        List<UsersSoldProductsViewDto> usersSoldProductsViewDtos =
+                this.userService.getAllSellersWithSoldProducts();
+        String json = this.gson.toJson(usersSoldProductsViewDtos);
+        this.fileIOUtil.write(json, Ex_2_OUTPUT);
     }
 
     private void writeProductInRange() throws IOException {

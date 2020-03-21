@@ -2,6 +2,7 @@ package com.json.homework.services.impl;
 
 import com.json.homework.models.dtos.seedDtos.ProductSeedDto;
 import com.json.homework.models.dtos.viewDtos.ProductInRangeViewDto;
+import com.json.homework.models.dtos.viewDtos.UsersSoldProductsViewDto;
 import com.json.homework.models.entities.Product;
 import com.json.homework.repositories.ProductRepository;
 import com.json.homework.services.api.CategoryService;
@@ -28,7 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private final UserService userService;
     private final CategoryService categoryService;
 
-    public ProductServiceImpl(ModelMapper modelMapper, ProductRepository productRepository, ValidationUtil validationUtil, UserService userService, CategoryService categoryService) {
+    public ProductServiceImpl(ModelMapper modelMapper, ProductRepository productRepository,
+                              ValidationUtil validationUtil, UserService userService, CategoryService categoryService) {
         this.modelMapper = modelMapper;
         this.productRepository = productRepository;
         this.validationUtil = validationUtil;
